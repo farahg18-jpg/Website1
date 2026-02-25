@@ -1,9 +1,5 @@
-export function ShipmentsPage() {
-  return (
-    <div className="page">
-      <h2>Shipments</h2>
-      <p>This is a placeholder for the Haul shipments experience.</p>
-    </div>
-  )
-}
+import { Navigate } from 'react-router-dom'
 
+export function ShipmentsPage() {
+  return <Navigate to="/app/transporten" replace />
+}

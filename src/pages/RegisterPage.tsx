@@ -1,29 +1,20 @@
 import type { FormEvent } from 'react'
-import { useMemo, useState } from 'react'
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/authContext'
 
-type LocationState = {
-  from?: { pathname?: string }
-}
-
-export function LoginPage() {
+export function RegisterPage() {
   const { login, isAuthenticated } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
 
-  const from = useMemo(() => {
-    const state = location.state as LocationState | null
-    return state?.from?.pathname ?? '/app'
-  }, [location.state])
-
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   if (isAuthenticated) {
-    return <Navigate to={from} replace />
+    return <Navigate to="/app" replace />
   }
 
   async function onSubmit(e: FormEvent) {
@@ -32,9 +23,9 @@ export function LoginPage() {
     setIsSubmitting(true)
     try {
       await login(email, password)
-      navigate(from, { replace: true })
+      navigate('/app', { replace: true })
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Inloggen mislukt.')
+      setError(err instanceof Error ? err.message : 'Registratie mislukt.')
     } finally {
       setIsSubmitting(false)
     }
@@ -44,10 +35,22 @@ export function LoginPage() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-logo">Haulr</div>
-        <h1 className="auth-title">Inloggen</h1>
-        <p className="auth-subtitle">Gebruik je e-mail en wachtwoord om in te loggen.</p>
+        <h1 className="auth-title">Account aanmaken</h1>
+        <p className="auth-subtitle">Start direct met het boeken van transporten.</p>
 
         <form onSubmit={onSubmit} className="auth-form">
+          <label className="field">
+            <span>Volledige naam</span>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+              autoComplete="name"
+              placeholder="Jan de Vries"
+              required
+            />
+          </label>
+
           <label className="field">
             <span>E-mailadres</span>
             <input
@@ -66,9 +69,10 @@ export function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              autoComplete="current-password"
-              placeholder="••••••••"
+              autoComplete="new-password"
+              placeholder="Minimaal 8 tekens"
               required
+              minLength={8}
             />
           </label>
 
@@ -76,13 +80,13 @@ export function LoginPage() {
 
           <div className="auth-submit">
             <button type="submit" className="btn btn-primary btn-lg" disabled={isSubmitting}>
-              {isSubmitting ? 'Bezig met inloggen…' : 'Inloggen'}
+              {isSubmitting ? 'Account aanmaken…' : 'Registreren'}
             </button>
           </div>
         </form>
 
         <div className="auth-footer">
-          Nog geen account? <Link to="/registreren">Registreer hier</Link>
+          Al een account? <Link to="/login">Inloggen</Link>
         </div>
       </div>
     </div>

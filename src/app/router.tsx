@@ -1,20 +1,32 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import { RequireAuth } from '../features/auth/RequireAuth'
 import { AppLayout } from '../layouts/AppLayout'
-import { DashboardPage } from '../pages/DashboardPage'
+import { LandingPage } from '../pages/LandingPage'
 import { LoginPage } from '../pages/LoginPage'
-import { NotFoundPage } from '../pages/NotFoundPage'
+import { RegisterPage } from '../pages/RegisterPage'
+import { BookingPage } from '../pages/BookingPage'
+import { DashboardPage } from '../pages/DashboardPage'
+import { TransportsPage } from '../pages/TransportsPage'
+import { TransportDetailPage } from '../pages/TransportDetailPage'
 import { SettingsPage } from '../pages/SettingsPage'
-import { ShipmentsPage } from '../pages/ShipmentsPage'
+import { NotFoundPage } from '../pages/NotFoundPage'
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/app" replace />,
+    element: <LandingPage />,
   },
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/registreren',
+    element: <RegisterPage />,
+  },
+  {
+    path: '/boeken',
+    element: <BookingPage />,
   },
   {
     path: '/app',
@@ -25,7 +37,9 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <DashboardPage /> },
-      { path: 'shipments', element: <ShipmentsPage /> },
+      { path: 'transporten', element: <TransportsPage /> },
+      { path: 'transporten/:id', element: <TransportDetailPage /> },
+      { path: 'shipments', element: <TransportsPage /> },
       { path: 'settings', element: <SettingsPage /> },
     ],
   },
@@ -34,4 +48,3 @@ export const router = createBrowserRouter([
     element: <NotFoundPage />,
   },
 ])
-
