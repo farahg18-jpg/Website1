@@ -1,24 +1,37 @@
-# Haul
+# Haulr
 
-Vite + React + TypeScript SPA for a logistics/hauling platform (early stage).
+Vite + React + TypeScript SPA — a logistics/transport platform for large items, modeled after haulr.nl.
 
 ## Cursor Cloud specific instructions
 
 ### Project overview
 
-Single-service client-side SPA — no backend, no database, no Docker. Auth is a localStorage-backed mock (any email + password works).
+Single-service client-side SPA. No backend, no database, no Docker. Auth and transport data are localStorage-backed (any email + password works). All UI text is in Dutch.
 
 ### Common commands
 
 See `package.json` scripts — standard Vite project:
 
-- **Dev server**: `npm run dev` (port 5173 by default; add `-- --host 0.0.0.0` to expose externally)
+- **Dev server**: `npm run dev` (port 5173; add `-- --host 0.0.0.0` to expose externally)
 - **Lint**: `npm run lint`
 - **Type check**: `npx tsc -b`
 - **Build**: `npm run build`
 
+### Key routes
+
+| Route | Description |
+|---|---|
+| `/` | Public landing page |
+| `/login` | Login page |
+| `/registreren` | Registration page |
+| `/boeken` | Booking / quote flow |
+| `/app` | Dashboard (auth required) |
+| `/app/transporten` | Transport list |
+| `/app/transporten/:id` | Transport detail + tracking |
+| `/app/settings` | Settings |
+
 ### Gotchas
 
-- The `main` branch contains only a `README.md`. Application code lives on feature branches (e.g. `cursor/development-environment-setup-6943`). Make sure your working branch has the app code merged before attempting to run the dev server.
-- No test framework is configured yet. There are no automated tests to run.
 - The project uses `package-lock.json` (npm). Do not use pnpm or yarn.
+- No test framework is configured yet. There are no automated tests.
+- Transport data is stored in `localStorage` under key `haulr.transports`. Clear it to reset demo data.
